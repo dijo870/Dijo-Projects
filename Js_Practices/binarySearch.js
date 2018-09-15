@@ -25,7 +25,7 @@ function binarySearch(arr, find){
   }
   
 }
-var x = [1,4,5,6,13,45,67,89, 99, 101,103,110];
-var find = 99;
-let res = binarySearch(x, find);
-console.log(res);
+let inputArr = [1,4,5,6,13,45,67,89, 99, 101,103,110];
+let find = 99;
+let result = binarySearch(inputArr, find);
+console.log(result);
