@@ -1,0 +1,79 @@
+<!-- 
+Throttling and Debouncing function
+https://codeburst.io/throttling-and-debouncing-in-javascript-646d076d0a44  [logic available as steps on given url]
+Demo: https://jsfiddle.net/foxbunny/rL68o4ef/
+
+Debouncing : (eg: search) The Debounce technique allow us to "group" multiple sequential calls in a single one. [ limit number of calls]
+Throttling : (eg: scrollbar) By using throttle, we don't allow to our function to execute more than once every X milliseconds.
+ -->
+
+https://codeburst.io/throttling-and-debouncing-in-javascript-646d076d0a44
+
+<!DOCTYPE html>
+<html >
+<head>
+
+</head>
+<body>
+<div id="mouse-move-area" style="border:1px solid red; width:400px; height:400px;">
+	<p> Original Co-ordinates: 
+		<span id="fx">initialX</span>, <span id="fy">initialY</span>
+	</p>
+	<p> Debounced Co-ordinates: 
+		<span id="sx">initialX</span>, <span id="sy">initialY</span>
+	</p>
+	<p> Throttled Co-ordinates: 
+		<span id="tx">initialX</span>, <span id="ty">initialY</span>
+	</p>
+	
+</div>
+<script>
+let co_ord = {
+	x:0,
+	y:0
+}
+const area = document.getElementById("mouse-move-area");
+area.addEventListener('mousemove', coordupdates("f"));
+area.addEventListener('mousemove', debounce(200,coordupdates("s")));
+area.addEventListener('mousemove', throttle(200,coordupdates("t")));
+
+function coordupdates(id){
+  let x = document.getElementById(`${id}x`);
+  let y = document.getElementById(`${id}y`); 
+  return function(e){
+	x.innerText = e.clientX;
+	y.innerText = e.clientY;
+  }
+}
+/*Limit number of calls in xsec or 200msc only one call allowed*/
+function debounce(delay, fn){
+  let handler;
+  return function(...args){
+    if(handler){
+	  clearTimeout(handler);
+	}
+	handler = setTimeout(() => {
+	  fn(...args);
+	  handler = null;
+	}, delay)
+  }
+
+}
+/*After each call x sec time passes next call allows.*/
+function throttle(delay, fn){
+	let lastTime = 0;
+	return function(...args){
+		const nw = (new Date).getTime();
+		if((nw - lastTime) < delay){
+		 return;
+		}
+		fn(...args);
+		lastTime = nw;
+	} 
+}
+
+
+</script>
+</body>
+</html>
+
